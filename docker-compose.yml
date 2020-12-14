@@ -1,0 +1,22 @@
+version: '3.8'
+
+networks:
+  br0:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:13.1-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tochka
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: "pg_isready -U postgres -d tochka"
+      interval: 20s
+      timeout: 20s
+      retries: 5
+    networks:
+      - br0
